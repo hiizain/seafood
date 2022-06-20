@@ -37,7 +37,7 @@ CREATE TABLE `barang` (
 /*Data for the table `barang` */
 
 insert  into `barang`(`ID_BARANG`,`ID_JENIS`,`NAMA_BARANG`,`STOK_BARANG`,`BERAT_BARANG`,`HARGA_JUAL`,`GAMBAR_BARANG`) values 
-('1001','11','Tuna',24,2.00,25000.00,NULL);
+('1001','11','Tuna',22,2.00,25000.00,NULL);
 
 /*Table structure for table `calon_konsumen` */
 
@@ -98,20 +98,7 @@ CREATE TABLE `detail_pemesanan` (
 /*Data for the table `detail_pemesanan` */
 
 insert  into `detail_pemesanan`(`ID_PEMESANAN`,`ID_BARANG`,`SUB_TOTAL`,`TOTAL_BERAT`) values 
-('06062201','1001',50000.00,4.00),
-('07062202','1001',50000.00,4.00),
-('16062201','1001',50000.00,4.00),
-('16062202','1001',50000.00,4.00),
-('16062203','1001',100000.00,8.00),
-('16062204','1001',50000.00,4.00),
-('16062205','1001',100000.00,8.00),
-('16062206','1001',25000.00,2.00),
-('16062207','1001',50000.00,4.00),
-('16062208','1001',25000.00,2.00),
-('16062209','1001',100000.00,8.00),
-('16062210','1001',100000.00,8.00),
-('16062211','1001',75000.00,6.00),
-('16062212','1001',25000.00,2.00);
+('20062201','1001',50000.00,4.00);
 
 /*Table structure for table `detail_penawaran` */
 
@@ -142,7 +129,9 @@ insert  into `detail_penawaran`(`ID_DETAIL_PENAWARAN`,`ID_PENAWARAN`,`ID_CALON_K
 (7,'10000001','10010001',NULL,NULL),
 (8,'10000001','10010001',NULL,NULL),
 (9,'10000001','10010001',NULL,NULL),
-(10,'10000001','10010001',NULL,NULL);
+(10,'10000001','10010001',NULL,NULL),
+(11,'10000001','10010001',NULL,NULL),
+(12,'10000001','10010002',NULL,NULL);
 
 /*Table structure for table `jabatan` */
 
@@ -267,8 +256,7 @@ CREATE TABLE `pembayaran` (
 /*Data for the table `pembayaran` */
 
 insert  into `pembayaran`(`ID_PEMBAYARAN`,`ID_PEGAWAI`,`ID_PEMESANAN`,`TGL_PEMBAYARAN`,`BUKTI_PEMBAYARAN`,`JENIS_PEMBAYARAN`,`STATUS_PEMBAYARAN`,`TOTAL_PEMBAYARAN`) values 
-('06062201','1001','06062201','2022-06-06','629d5f4b96ed2.jpeg','COD',1,50000.00),
-('16062213','1001','16062211','2022-06-16','62ab4ae4dc7a4.png','COD',1,75000.00);
+('20062201','1001','20062201','2022-06-20','62afe69b3bd3e.png','COD',3,50000.00);
 
 /*Table structure for table `pemesanan` */
 
@@ -292,20 +280,7 @@ CREATE TABLE `pemesanan` (
 /*Data for the table `pemesanan` */
 
 insert  into `pemesanan`(`ID_PEMESANAN`,`ID_PEGAWAI`,`ID_CALON_KONSUMEN`,`TGL_PEMESANAN`,`STATUS_PEMESANAN`,`ALAMAT_PENGIRIMAN`,`TOTAL_HARGA`) values 
-('06062201','1001','10010001','2022-06-06','01','Trenggalek',50000.00),
-('07062202','1001','10010001','2022-06-07','01','sadas',50000.00),
-('16062201','1001','10010001','2022-06-16','01','Trenggalek',50000.00),
-('16062202','1001','10010001','2022-06-16','01','Trenggalek',50000.00),
-('16062203','1001','10010001','2022-06-16','01','Sby',100000.00),
-('16062204','1001','10010001','2022-06-16','01','Sby',50000.00),
-('16062205','1001','10010001','2022-06-16','01','saasd',100000.00),
-('16062206','1001','10010001','2022-06-16','01','asdnjas',25000.00),
-('16062207','1001','10010001','2022-06-16','01','5',50000.00),
-('16062208','1001','10010001','2022-06-16','01','fsdfsa',25000.00),
-('16062209','1001','10010001','2022-06-16','01','dWD',100000.00),
-('16062210','1001','10010001','2022-06-16','01','scasc',100000.00),
-('16062211','1001','10010001','2022-06-16','01','csvd',75000.00),
-('16062212','1001','10010001','2022-06-16','00','dasdas',25000.00);
+('20062201','1001','10010001','2022-06-20','05','Trenggalek',50000.00);
 
 /*Table structure for table `penawaran` */
 
@@ -348,6 +323,9 @@ CREATE TABLE `pengiriman` (
 
 /*Data for the table `pengiriman` */
 
+insert  into `pengiriman`(`NO_RESI`,`ID_PEGAWAI`,`ID_PEMBAYARAN`,`STATUS_PENGIRIMAN`,`TANGGAL_PENGIRIMAN`) values 
+('20062202','1001','20062201',2,'2022-06-20');
+
 /*Table structure for table `sequence_calon_konsumen` */
 
 DROP TABLE IF EXISTS `sequence_calon_konsumen`;
@@ -372,7 +350,7 @@ CREATE TABLE `sequence_pembayaran` (
   `idHitung` int(11) NOT NULL AUTO_INCREMENT,
   `tanggal` date DEFAULT NULL,
   PRIMARY KEY (`idHitung`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `sequence_pembayaran` */
 
@@ -390,7 +368,8 @@ insert  into `sequence_pembayaran`(`idHitung`,`tanggal`) values
 (15,'2022-06-16'),
 (16,'2022-06-16'),
 (17,'2022-06-16'),
-(18,'2022-06-16');
+(18,'2022-06-16'),
+(19,'2022-06-20');
 
 /*Table structure for table `sequence_pemesanan` */
 
@@ -400,7 +379,7 @@ CREATE TABLE `sequence_pemesanan` (
   `idHitung` int(11) NOT NULL AUTO_INCREMENT,
   `tanggal` date DEFAULT NULL,
   PRIMARY KEY (`idHitung`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `sequence_pemesanan` */
 
@@ -420,7 +399,25 @@ insert  into `sequence_pemesanan`(`idHitung`,`tanggal`) values
 (18,'2022-06-16'),
 (19,'2022-06-16'),
 (20,'2022-06-16'),
-(21,'2022-06-16');
+(21,'2022-06-16'),
+(23,'2022-06-19'),
+(24,'2022-06-20');
+
+/*Table structure for table `sequence_pengiriman` */
+
+DROP TABLE IF EXISTS `sequence_pengiriman`;
+
+CREATE TABLE `sequence_pengiriman` (
+  `idHitung` int(11) NOT NULL AUTO_INCREMENT,
+  `tanggal` date DEFAULT NULL,
+  PRIMARY KEY (`idHitung`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `sequence_pengiriman` */
+
+insert  into `sequence_pengiriman`(`idHitung`,`tanggal`) values 
+(1,'2022-06-20'),
+(2,'2022-06-20');
 
 /* Trigger structure for table `calon_konsumen` */
 
@@ -490,6 +487,24 @@ BEGIN
 	SELECT count(*) INTO id FROM sequence_pemesanan
 	WHERE tanggal = CURDATE();
 	SET NEW.id_pemesanan = CONCAT(DATE_FORMAT(CURDATE(), '%d%m%y'), LPAD(id,2,'0')); 
+END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `pengiriman` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `no_resi` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `no_resi` BEFORE INSERT ON `pengiriman` FOR EACH ROW 
+BEGIN 
+	DECLARE id INT;
+	INSERT INTO sequence_pengiriman (tanggal) VALUES (CURDATE()); 
+	SELECT COUNT(*) INTO id FROM sequence_pengiriman
+	WHERE tanggal = CURDATE();
+	SET NEW.no_resi = CONCAT(DATE_FORMAT(CURDATE(), '%d%m%y'), LPAD(id,2,'0')); 
 END */$$
 
 

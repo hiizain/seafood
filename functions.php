@@ -91,7 +91,7 @@
         $alamatKirim = htmlspecialchars($data["alamat"]);
         
         $query = "INSERT INTO pemesanan (id_pegawai, id_calon_konsumen, tgl_pemesanan, status_pemesanan, alamat_pengiriman, total_harga)
-                  VALUES ('1001', '$idKonsumen', DEFAULT, '00', '$alamatKirim', $total)
+                  VALUES ('1001', '$idKonsumen', DEFAULT, '01', '$alamatKirim', $total)
                   ";
 
         mysqli_query($koneksi, $query);
@@ -147,6 +147,26 @@
         //die(var_dump($query));
 
         $query = "UPDATE pemesanan SET status_pemesanan = '02' WHERE id_pemesanan = '$idPemesanan'";
+        //die(var_dump($query));
+        mysqli_query($koneksi, $query);
+
+        return mysqli_affected_rows($koneksi);
+    }
+
+    function terima($data){
+        global $koneksi;
+
+        $idPemesanan = htmlspecialchars($data["idPemesanan"]);
+        //die(var_dump($idPemesanan));
+        
+
+        $query = "UPDATE pemesanan SET status_pemesanan = '05' WHERE id_pemesanan = '$idPemesanan'";
+        //die(var_dump($query));
+        mysqli_query($koneksi, $query);
+
+        $idPembayaran = query("SELECT id_pembayaran FROM pembayaran WHERE id_pemesanan = '$idPemesanan'")[0]["id_pembayaran"];
+        //die(var_dump($idPembayaran));
+        $query = "UPDATE pengiriman SET status_pengiriman = 2 WHERE id_pembayaran = '$idPembayaran'";
         //die(var_dump($query));
         mysqli_query($koneksi, $query);
 

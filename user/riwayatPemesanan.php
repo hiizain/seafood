@@ -16,18 +16,31 @@
                                      p.alamat_pengiriman, dp.sub_total, dp.total_berat 
                               FROM detail_pemesanan dp, barang b, pemesanan p
                               WHERE dp.id_barang = b.id_barang AND dp.id_pemesanan = p.id_pemesanan 
-                                    AND p.status_pemesanan = '00' AND p.id_calon_konsumen = '$idKonsumen'");
+                                    AND p.status_pemesanan = '01' AND p.id_calon_konsumen = '$idKonsumen'");
 
     // Pemesanan yang sudah dibayar
     $pesanSudahBayar = query("SELECT b.nama_barang, p.id_pemesanan, p.tgl_pemesanan, p.status_pemesanan, 
                               p.alamat_pengiriman, dp.sub_total, dp.total_berat 
                               FROM detail_pemesanan dp, barang b, pemesanan p
                               WHERE dp.id_barang = b.id_barang AND dp.id_pemesanan = p.id_pemesanan 
-                                    AND p.status_pemesanan = '01' AND p.id_calon_konsumen = '$idKonsumen'");
+                                    AND p.status_pemesanan IN ('02', '03', '04', '05') AND p.id_calon_konsumen = '$idKonsumen'");
 
     //die(var_dump($detailPemesanan));
     if (isset($_POST["submit"])){
-      if (hapus($_POST)>0){
+        if (hapus($_POST)>0){
+            header("Location: riwayatPemesanan.php");
+        }
+        else {
+            echo "
+                <script>
+                    alert('Login gagal');
+                    document.location.href = 'riwayatPemesanan.php'
+                </script>
+            ";
+        }
+    }
+    if (isset($_POST["terima"])){
+      if (terima($_POST)>0){
           header("Location: riwayatPemesanan.php");
       }
       else {
@@ -175,12 +188,29 @@
                     <h5>Rp. <?= $detailPemesanan["sub_total"]; ?></h5>
                     <li class="pt-5">Tanggal : <?= $detailPemesanan["tgl_pemesanan"]; ?></li>
                     <li>Alamat Pengiriman: <?=  $detailPemesanan["alamat_pengiriman"]; ?></li>
-                    <?php if($detailPemesanan["status_pemesanan"] == 00){ ?>
+                    <?php if($detailPemesanan["status_pemesanan"] === '01'){ ?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Menunggu Pembayaran</a></li>
-                    <?php } else {?>
-                    <li>Status Pemesanan : <a href="#" class="btn btn-success btn-sm">Barang Dikirim</a></li>
+                    <?php } else if($detailPemesanan["status_pemesanan"] === '02'){ ?>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Menunggu Konfirmasi Pembayaran</a></li>
+                    <?php } else if($detailPemesanan["status_pemesanan"] === '03'){ ?>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Pesanan Disiapkan</a></li>
+                    <?php } else if($detailPemesanan["status_pemesanan"] === '04'){?>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-success btn-sm">Pesanan Dikirim</a></li>
                     <?php } ?>
                 </ul>
+                
+                <?php
+                if($detailPemesanan["status_pemesanan"] === '04'){
+                  ?>
+                  <form action="" method="post">
+                    <input type="hidden" value="<?= $detailPemesanan["id_pemesanan"]; ?>" name="idPemesanan">
+                    <button type="submit" name="terima" class="btn btn-primary btn-sm">
+                        Terima Pesanan
+                    </button>
+                  </form>
+                  <?php
+                }
+                ?>
               </div>
             </div>
             <?php } ?>

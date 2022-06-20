@@ -107,7 +107,7 @@ $sql = query($query);
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="profile.html">
+          <a class="nav-link text-white " href="profile.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -115,21 +115,13 @@ $sql = query($query);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="./pages/sign-in.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="./pages/sign-up.html">
+          <a class="nav-link text-white " href="../../logout.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">assignment</i>
             </div>
             <span class="nav-link-text ms-1">Sign Up</span>
           </a>
-        </li>        
+        </li>         
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0"></div>
@@ -263,10 +255,10 @@ $sql = query($query);
                 <thead>
                     <tr>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Receipt Number</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Employee ID</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Payment ID</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Delivery Status</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Delivery Date</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Employee ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Payment ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Delivery Status</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Delivery Date</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Action</th>
                     </tr>
                 </thead>
@@ -283,12 +275,23 @@ $sql = query($query);
                       <span class="text-secondary font-weight-bold text-xs"><?php echo $member['ID_PEMBAYARAN']; ?></span>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <span class="text-secondary font-weight-bold text-xs"><?php echo $member['STATUS_PENGIRIMAN']; ?></span>
+                      <?php
+                      if($member['STATUS_PENGIRIMAN']==1){
+                        ?>
+                        <span class="text-secondary text-success font-weight-bold text-xs">Sedang dalam pengiriman</span>
+                        <?php
+                      } else if($member['STATUS_PENGIRIMAN']==2){
+                        ?>
+                        <span class="text-secondary text-info font-weight-bold text-xs">Barang Diterima</span>
+                        <?php
+                      }
+                      ?>
+                      
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <span class="text-secondary font-weight-bold text-xs"><?php echo $member['TGL_PENGIRIMAN']; ?></span>
+                      <span class="text-secondary font-weight-bold text-xs"><?php echo $member['TANGGAL_PENGIRIMAN']; ?></span>
                     </td>
-                    <td>
+                    <td class="align-middle text-center text-sm">
                       <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="deletedelivery.php?no_resi=<?php echo $member['NO_RESI']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="material-icons text-sm me-2">delete</i>Delete</a>
                       <a class="btn btn-link text-warning px-3 mb-0" href="editdelivery.php?no_resi=<?php echo $member['NO_RESI']; ?>"><i class="material-icons text-sm me-2">edit</i>Edit</a>
                     </td>

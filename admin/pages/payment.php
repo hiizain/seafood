@@ -107,7 +107,7 @@ $sql = query($query);
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="profile.html">
+          <a class="nav-link text-white " href="profile.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -115,21 +115,13 @@ $sql = query($query);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="./pages/sign-in.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="./pages/sign-up.html">
+          <a class="nav-link text-white " href="../../logout.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">assignment</i>
             </div>
             <span class="nav-link-text ms-1">Sign Up</span>
           </a>
-        </li>        
+        </li>         
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
@@ -261,14 +253,14 @@ $sql = query($query);
                 <thead>
                     <tr>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Payment ID</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Employee</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Order ID</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Payment Date</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Proof of Payment</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Type of Payment</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Payment Status</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ps-2">Total Payment</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center ">Action</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Employee</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Order ID</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Payment Date</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Proof of Payment</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Type of Payment</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Payment Status</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Total Payment</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-1000 align-middle text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
