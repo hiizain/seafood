@@ -297,7 +297,6 @@ $sql = query($query);
                     </td>
                     <td>
                       <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="deleteemployee.php?id_pegawai=<?php echo $member['ID_PEGAWAI']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="material-icons text-sm me-2">delete</i>Delete</a>
-                      <a class="btn btn-link text-warning px-3 mb-0" href="editemployee.php?id_pegawai=<?php echo $member['ID_PEGAWAI']; ?>"><i class="material-icons text-sm me-2">edit</i>Edit</a>
                     </td>
                   </tr>
                   <?php endforeach; ?>
