@@ -256,22 +256,22 @@ $sql = query($query);
             <div class="card-body">
                 <form method="POST" action="../process/createemployee.php" role="form" class="text-start" enctype="multipart/form-data">
                     <div class="row my-3">
-                      <div class="col-md-6">
+                      <!-- <div class="col-md-6">
                             <div class="input-group input-group-outline mb-1">
                                 <input type="int" placeholder="Employee ID" class="form-control" name="id_pegawai" required>
                             </div>
-                        </div>                        
-                        <div class="col-md-6">
+                        </div>                         -->
+                        <div class="col-md-12">
                           <div class="input-group input-group-outline mb-1">
                             <select class="form-control" name="id_jabatan" required>
-                              <option value="" disabled selected hidden>Job ID</option>
+                              <option  value="" disabled selected hidden>Jabatan</option>
                               <?php
                               $result = "SELECT * FROM jabatan";
-                              $pgw = query($result);
+                              $jabatan = query($result);
 
-                              foreach ($pgw as $pegawai) :
+                              foreach ($jabatan as $jabatan) :
                               ?>
-                              <option value="<?php echo $pegawai['ID_JABATAN']; ?>"><?php echo $pegawai['ID_JABATAN']; ?></option>
+                              <option value="<?php echo $jabatan['ID_JABATAN']; ?>"><?php echo $jabatan['NAMA_JABATAN']; ?></option>
                               <?php endforeach; ?>
                             </select>
                           </div>
@@ -288,7 +288,7 @@ $sql = query($query);
                         </div>
                         <div class="col-md-6">
                           <div class="input-group input-group-outline mb-1">
-                            <input type="text" placeholder="Email" class="form-control" name="email_pegawai" required>
+                            <input type="email" placeholder="Email" class="form-control" name="email_pegawai" required>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -314,7 +314,7 @@ $sql = query($query);
 
                         <div class="col-md-6">
                           <div class="input-group input-group-outline mb-1">
-                            <input type="text" placeholder="Password" class="form-control" name="pass_pegawai" required>
+                            <input type="password" placeholder="Password" class="form-control" name="pass_pegawai" required>
                           </div>
                         </div>
                     </div>

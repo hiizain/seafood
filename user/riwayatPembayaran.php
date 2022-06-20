@@ -24,8 +24,9 @@
                                 p.alamat_pengiriman, pb.total_pembayaran, dp.total_berat 
                                 FROM detail_pemesanan dp, barang b, pemesanan p, pembayaran pb
                                 WHERE dp.id_barang = b.id_barang AND dp.id_pemesanan = p.id_pemesanan 
-                                      AND pb.id_pemesanan = p.id_pemesanan AND pb.status_pembayaran = 3
-                                      AND pb.id_pemesanan IN ($array)");
+                                      AND pb.id_pemesanan = p.id_pemesanan AND pb.status_pembayaran IN (2,3)
+                                      AND pb.id_pemesanan IN ($array)
+                                ORDER BY pb.id_pembayaran DESC");
 ?>
 
 <!DOCTYPE html>

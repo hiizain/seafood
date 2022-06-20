@@ -16,14 +16,16 @@
                                      p.alamat_pengiriman, dp.sub_total, dp.total_berat 
                               FROM detail_pemesanan dp, barang b, pemesanan p
                               WHERE dp.id_barang = b.id_barang AND dp.id_pemesanan = p.id_pemesanan 
-                                    AND p.status_pemesanan = '01' AND p.id_calon_konsumen = '$idKonsumen'");
+                                    AND p.status_pemesanan = '01' AND p.id_calon_konsumen = '$idKonsumen'
+                              ORDER BY p.id_pemesanan DESC");
 
     // Pemesanan yang sudah dibayar
     $pesanSudahBayar = query("SELECT b.nama_barang, p.id_pemesanan, p.tgl_pemesanan, p.status_pemesanan, 
                               p.alamat_pengiriman, dp.sub_total, dp.total_berat 
                               FROM detail_pemesanan dp, barang b, pemesanan p
                               WHERE dp.id_barang = b.id_barang AND dp.id_pemesanan = p.id_pemesanan 
-                                    AND p.status_pemesanan IN ('02', '03', '04', '05') AND p.id_calon_konsumen = '$idKonsumen'");
+                                    AND p.status_pemesanan IN ('02', '03', '04', '05') AND p.id_calon_konsumen = '$idKonsumen'
+                              ORDER BY p.id_pemesanan DESC");
 
     //die(var_dump($detailPemesanan));
     if (isset($_POST["submit"])){
@@ -142,14 +144,17 @@
                     <li class="pt-5">Tanggal : <?= $detailPemesanan["tgl_pemesanan"]; ?></li>
                     <li>Alamat Pengiriman: <?=  $detailPemesanan["alamat_pengiriman"]; ?></li>
                     <?php if($detailPemesanan["status_pemesanan"] === '01'){ ?>
-                    <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Menunggu Pembayaran</a></li>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-danger btn-sm">Menunggu Pembayaran</a></li>
                     <?php } else if($detailPemesanan["status_pemesanan"] === '02'){ ?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Menunggu Konfirmasi Pembayaran</a></li>
                     <?php } else if($detailPemesanan["status_pemesanan"] === '03'){ ?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Pesanan Disiapkan</a></li>
                     <?php } else if($detailPemesanan["status_pemesanan"] === '04'){?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-success btn-sm">Pesanan Dikirim</a></li>
-                    <?php } ?>
+                    <?php } else if($detailPemesanan["status_pemesanan"] === '05'){?>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-primary btn-sm">Pesanan Diterima</a></li>
+                    <?php }
+                    ?>
                 </ul>
                 <form action="" method="post">
                   <input type="hidden" value="<?= $detailPemesanan["id_pemesanan"]; ?>" name="idPemesanan">
@@ -189,14 +194,17 @@
                     <li class="pt-5">Tanggal : <?= $detailPemesanan["tgl_pemesanan"]; ?></li>
                     <li>Alamat Pengiriman: <?=  $detailPemesanan["alamat_pengiriman"]; ?></li>
                     <?php if($detailPemesanan["status_pemesanan"] === '01'){ ?>
-                    <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Menunggu Pembayaran</a></li>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-danger btn-sm">Menunggu Pembayaran</a></li>
                     <?php } else if($detailPemesanan["status_pemesanan"] === '02'){ ?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Menunggu Konfirmasi Pembayaran</a></li>
                     <?php } else if($detailPemesanan["status_pemesanan"] === '03'){ ?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-warning btn-sm">Pesanan Disiapkan</a></li>
                     <?php } else if($detailPemesanan["status_pemesanan"] === '04'){?>
                     <li>Status Pemesanan : <a href="#" class="btn btn-success btn-sm">Pesanan Dikirim</a></li>
-                    <?php } ?>
+                    <?php } else if($detailPemesanan["status_pemesanan"] === '05'){?>
+                    <li>Status Pemesanan : <a href="#" class="btn btn-primary btn-sm">Pesanan Diterima</a></li>
+                    <?php }
+                    ?>
                 </ul>
                 
                 <?php
