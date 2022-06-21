@@ -13,6 +13,7 @@
 
     // Pengambilan data riwayat pembayaran user
     $idPemesanan = query("SELECT id_pemesanan FROM pemesanan WHERE id_calon_konsumen = '$idKonsumen'");
+    if(count($idPemesanan)>0){
     $a = 0;
     foreach ($idPemesanan as $idPemesanan){
       $array[$a] = $idPemesanan["id_pemesanan"];
@@ -27,6 +28,7 @@
                                       AND pb.id_pemesanan = p.id_pemesanan AND pb.status_pembayaran IN (2,3)
                                       AND pb.id_pemesanan IN ($array)
                                 ORDER BY pb.id_pembayaran DESC");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +107,9 @@
         <div class="section-title" data-aos="fade-up">
           <h2>Riwayat Pembayaran</h2>
         </div>
-
+        <?php
+        if(count($idPemesanan)>0){
+        ?>
         <div class="row">
             <?php foreach($riwayatPembayaran as $pembayaran){ ?>
             <div class="col-lg-4 col-md-6 mb-3">
@@ -117,7 +121,7 @@
                     <li class="pt-5">Tanggal : <?= $pembayaran["tgl_pembayaran"]; ?></li>
                     <li>Alamat Pengiriman: <?=  $pembayaran["alamat_pengiriman"]; ?></li>
                     <?php if($pembayaran["status_pembayaran"] == 2){ ?>
-                    <li>Status Pembayaran : <a href="#" class="btn btn-success btn-sm">Menunggu Konfirmasi Pembayaran</a></li>
+                    <li>Status Pembayaran : <a href="#" class="btn btn-warning btn-sm">Menunggu Konfirmasi Pembayaran</a></li>
                     <?php } else if($pembayaran["status_pembayaran"] == 3){?>
                     <li>Status Pembayaran : <a href="#" class="btn btn-danger btn-sm">Pembayaran Berhasil</a></li>
                     <?php }?>
@@ -127,6 +131,7 @@
             <?php } ?>
 
         </div>
+        <?php } ?>
 
       </div>
     </section><!-- End Pricing Section -->

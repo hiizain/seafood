@@ -2,9 +2,15 @@
 // panggil koneksi ke database
 require_once '../config/database.php';
 
-if(isset($_GET['no_resi'])){
-  $result   = "SELECT * FROM pengiriman WHERE no_resi='" . $_GET['no_resi'] . "' ";
-  $edit     = mysqli_query($db, $result);
+session_start();
+if ( !isset($_SESSION["login"]) ){
+header("Location: ../../login.php");
+}
+require '../../functions.php';
+
+if(isset($_GET['id_barang'])){
+  $result   = "SELECT * FROM barang WHERE id_barang='" . $_GET['id_barang'] . "' ";
+  $edit     = mysqli_query($koneksi, $result);
 }
 ?>
 <!DOCTYPE html>
@@ -134,7 +140,7 @@ if(isset($_GET['no_resi'])){
             </div>
             <span class="nav-link-text ms-1">Sign Up</span>
           </a>
-        </li>       
+        </li>         
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 "></div>
@@ -259,64 +265,63 @@ if(isset($_GET['no_resi'])){
               <div class="card z-index-0 fadeIn3 fadeInBottom">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                    <h4 class="text-white font-weight-bolder text-center mt-0 mb-0">Edit Delivery</h4>
+                    <h4 class="text-white font-weight-bolder text-center mt-0 mb-0">Edit Item</h4>
                 </div>
             </div>
             <div class="card-body">
-                <form method="POST" role="form" class="text-start" enctype="multipart/form-data">
+                <form method="POST" action="../process/edititem.php" role="form" class="text-start" enctype="multipart/form-data">
                     <div class="row my-3">
-                    <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Receipt Number" class="form-control" name="no_resi" value="<?php echo $row['no_resi']; ?>" required>
+                        <input type="hidden" placeholder="Employee ID" name="id_barang" value="<?= $row["ID_BARANG"]; ?>">                        
+                        <div class="col-md-12">
+                          <div class="input-group input-group-outline mb-1">
+                            <select class="form-control text-center" name="id_jenis" required>
+                              <?php
+                              $idJenis = $row["ID_JENIS"];
+                              $result  = "SELECT nama_jenis FROM jenis_barang WHERE id_jenis = '$idJenis'";
+                              $jenis   = query($result)[0];
+                              ?>
+                              <option class="text-center" value="<?= $row["ID_JENIS"];?>"><?php echo $jenis['nama_jenis']; ?></option>
+                              <?php
+                              $result = "SELECT * FROM jenis_barang";
+                              $jenis = query($result);
+
+                              foreach ($jenis as $jenis) :
+                              ?>
+                              <option class="text-center" value="<?php echo $jenis['ID_JENIS']; ?>"><?php echo $jenis['NAMA_JENIS']; ?></option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>                       
+                        <div class="col-md-6">
+                            <div class="input-group input-group-outline mb-1">
+                                <input type="text" placeholder="<?= $row["NAMA_BARANG"]; ?>" class="form-control" name="nama_barang" value="<?= $row["NAMA_BARANG"]; ?>" required>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Employee ID" class="form-control" name="id_pegawai" value="<?php echo $row['id_pegawai']; ?>" required>
-                            </div>
+                          <div class="input-group input-group-outline mb-1">
+                            <input type="number" placeholder="<?= $row["STOK_BARANG"]; ?>" class="form-control" name="stok_barang" value="<?= $row["STOK_BARANG"]; ?>" readonly required>
+                          </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Payment ID" class="form-control" name="id_pembayaran" value="<?php echo $row['id_pembayaran']; ?>" required>
-                            </div>
+                          <div class="input-group input-group-outline mb-1">
+                            <input type="float" placeholder="<?= $row["BERAT_BARANG"]; ?>" class="form-control" name="berat_barang" value="<?= $row["BERAT_BARANG"]; ?>" required>
+                          </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Delivery Status" class="form-control" name="status_pengiriman" value="<?php echo $row['status_pengiriman']; ?>" required>
-                            </div>
+                          <div class="input-group input-group-outline mb-1">
+                            <input type="int" placeholder="<?= $row["HARGA_JUAL"]; ?>" class="form-control" name="harga_jual" value="<?= $row["HARGA_JUAL"]; ?>" required>
+                          </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Delivery Date" class="form-control" name="tgl_pengiriman" value="<?php echo $row['tgl_pengiriman']; ?>" required>
-                            </div>
-                        </div>
+                        <!-- <div class="col-md-6">
+                          <div class="input-group input-group-outline mb-1">
+                            <input type="text" placeholder="Gender" class="form-control" name="jk_pegawai" required>
+                          </div>
+                        </div> -->
                     </div>
                     <div class="text-center">
-                      <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" name="edit-delivery">Edit</button>
+                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" name="add-offer">Update</button>
                     </div>
                   </form>
-                  <?php
-                  if(isset($_POST['edit-delivery'])){
-                    $no_resi  	  	    = $_POST['no_resi'];
-                    $id_pegawai         = $_POST['id_pegawai'];
-                    $id_pembayaran      = $_POST['id_pembayaran'];
-                    $status_pengiriman  = $_POST['status_pengiriman'];    	              
-                    $tgl_pengiriman     = $_POST['tgl_pengiriman'];
-
-                    $query          = "UPDATE pengiriman
-                                      SET no_resi='$no_resi',
-                                      id_pegawai='$id_pegawai',
-                                      id_pembayaran='$id_pembayaran',
-                                      status_pengiriman='$status_pengiriman',
-                                      tgl_pengiriman='$tgl_pengiriman'
-                                      WHERE no_resi='". $_GET['no_resi'] ."'";
-                    $update         = mysqli_query($db, $query);
-
-                    if($update){
-                      echo "<script>location='../pages/delivery.php';</script>";
-                    }
-                  }
-                ?>
                 </div>
               </div>
             </div>

@@ -16,11 +16,14 @@
 
     // Query Barang Yang ditawarkan terakhir.
     $tglPenawaranTerakhir = query("SELECT TGL_PENAWARAN_TERAKHIR FROM CALON_KONSUMEN 
-                                   WHERE EMAIL_CALON_KONSUMEN = '$emailKonsumen'")[0];
-    $tglPenawaranTerakhir = $tglPenawaranTerakhir["TGL_PENAWARAN_TERAKHIR"];
+                                   WHERE EMAIL_CALON_KONSUMEN = '$emailKonsumen'");
+    // die(var_dump($tglPenawaranTerakhir));
+    if($tglPenawaranTerakhir[0]["TGL_PENAWARAN_TERAKHIR"]!= null){
+    $tglPenawaranTerakhir = $tglPenawaranTerakhir[0]["TGL_PENAWARAN_TERAKHIR"];
     $idPenawaran = query("SELECT id_penawaran FROM penawaran 
-                          WHERE tgl_penawaran = '$tglPenawaranTerakhir'")[0];
-    $idPenawaran = (string)$idPenawaran["id_penawaran"];
+                          WHERE tgl_penawaran = '$tglPenawaranTerakhir'");
+    // die(var_dump($idPenawaran));
+    $idPenawaran = (string)$idPenawaran[0]["id_penawaran"];
     $idKatalog = query("SELECT id_katalog FROM penawaran WHERE id_penawaran = '$idPenawaran'")[0];
     $idKatalog = $idKatalog["id_katalog"];
     $idBarang = query("SELECT id_barang FROM detail_katalog WHERE id_katalog = '$idKatalog'");
@@ -33,7 +36,7 @@
     $array = "'" .implode("','", $array  ) . "'";
     $array = (string)$array;
     $barangPenawaran = query("SELECT * FROM barang WHERE id_barang IN ($array)");
-
+    }
     if (isset($_POST["submit"])){
         $id = $_REQUEST["idBarang"];
         $sisaBarang = query("SELECT stok_barang FROM barang WHERE id_barang = '$id'")[0];
@@ -121,7 +124,9 @@
   </header><!-- End Header -->
 
   <main id="main">
-
+    <?php
+    if($tglPenawaranTerakhir[0]["TGL_PENAWARAN_TERAKHIR"] != null){
+    ?>
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">
@@ -130,7 +135,7 @@
           <h2>Spesial untuk Anda</h2>
           <p>Penawaran terbaru yang anda terima</p>
         </div>
-
+        
         <div class="row">
           <?php foreach ($barangPenawaran as $item){?>
             <div class="col-md-6 col-lg-3 align-items-stretch mb-5 mb-lg-0 pb-3">
@@ -145,17 +150,20 @@
             </div>
           <?php } ?>
         </div>
+        
 
       </div>
     </section><!-- End Services Section -->
-
+    <?php
+    } 
+    ?>
     <hr>
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">
 
       <div class="section-title" data-aos="fade-up">
-          <h2>Barang Lainnya</h2>
+          <h2>Barang</h2>
           <p>Barang lainnya yang masih tersedia</p>
         </div>
 

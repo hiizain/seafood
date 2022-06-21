@@ -31,7 +31,7 @@
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO calon_konsumen VALUES 
-                ('', '$idNegara', '$nama', '$email', '$password', '')
+                ('', '$idNegara', '$nama', '$email', '$password', NULL)
                 ";
 
         mysqli_query($koneksi, $query);

@@ -12,16 +12,14 @@
     	$pelanggan     			= $_POST['pelanggan'];
 		$i = 0;
 		if ($pelanggan == 1){
-			$penawaran		= query("SELECT id_calon_konsumen, COUNT(id_pemesanan) FROM pemesanan
-										 WHERE status_pemesanan LIKE '03'
-										 GROUP BY id_calon_konsumen");
+			$penawaran		= query("SELECT id_calon_konsumen FROM calon_konsumen");
 			foreach($penawaran as $penawaran){
 				$idDiTawari[$i] = $penawaran["id_calon_konsumen"];
 				$i++;
 			}
 		} else if($pelanggan == 2){
 			$penawaran		= query("SELECT id_calon_konsumen, COUNT(id_pemesanan) FROM pemesanan
-										 WHERE status_pemesanan LIKE '03'
+										 WHERE status_pemesanan IN ('03','04','05')
 										 GROUP BY id_calon_konsumen LIMIT 10");
 			foreach($penawaran as $penawaran){
 				$idDiTawari[$i] = $penawaran["id_calon_konsumen"];
@@ -29,7 +27,7 @@
 			}
 		} else if($pelanggan == 3){
 			$penawaran		= query("SELECT id_calon_konsumen, COUNT(id_pemesanan) FROM pemesanan
-										 WHERE status_pemesanan LIKE '03'
+										 WHERE status_pemesanan IN ('03','04','05')
 										 GROUP BY id_calon_konsumen LIMIT 50");
 			foreach($penawaran as $penawaran){
 				$idDiTawari[$i] = $penawaran["id_calon_konsumen"];

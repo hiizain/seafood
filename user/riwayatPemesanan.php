@@ -125,6 +125,8 @@
 
   <main id="main">
 
+    
+
     <!-- ======= Pricing Section ======= -->
     <section id="pricing" class="pricing">
       <div class="container">
@@ -132,6 +134,10 @@
         <div class="section-title" data-aos="fade-up">
           <h2>Pesanan Belum Dibayar</h2>
         </div>
+
+        <?php
+        if(count($pesanBelumBayar)>0){
+        ?>
 
         <div class="row">
             <?php foreach($pesanBelumBayar as $detailPemesanan){ ?>
@@ -172,8 +178,14 @@
             <?php } ?>
         </div>
 
+        <?php } ?>
+
       </div>
     </section><!-- End Pricing Section -->
+
+    <?php
+    if(count($pesanSudahBayar)>0){
+    ?>
 
     <!-- ======= Pricing Section ======= -->
     <section id="pricing" class="pricing">
@@ -226,6 +238,8 @@
 
       </div>
     </section><!-- End Pricing Section -->
+
+    <?php } ?>
 
   </main><!-- End #main -->
 

@@ -2,10 +2,18 @@
 // panggil koneksi ke database
 require_once '../config/database.php';
 
-if(isset($_GET['no_resi'])){
-  $result   = "SELECT * FROM pengiriman WHERE no_resi='" . $_GET['no_resi'] . "' ";
-  $edit     = mysqli_query($db, $result);
+session_start();
+if ( !isset($_SESSION["login"]) ){
+header("Location: ../../login.php");
 }
+require '../../functions.php';
+
+$idBarang = $_GET["id_barang"];
+$barang   = query("SELECT * FROM barang WHERE id_barang = '$idBarang'")[0];
+
+// ambil data dari database
+$query = "SELECT * FROM penawaran ORDER BY id_penawaran ASC LIMIT 0, 10";
+$sql = query($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,16 +22,14 @@ if(isset($_GET['no_resi'])){
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/seafood.png">
-  <title>SeaFood's Restaurant
-  </title>
+  <title>SeaFood's Restaurant</title>
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet"/>
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet"/>
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet"/>
 </head>
-
 <body class="g-sidenav-show  bg-gray-200">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
@@ -134,7 +140,7 @@ if(isset($_GET['no_resi'])){
             </div>
             <span class="nav-link-text ms-1">Sign Up</span>
           </a>
-        </li>       
+        </li>         
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 "></div>
@@ -146,9 +152,9 @@ if(isset($_GET['no_resi'])){
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tables</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Add</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Table</h6>
+          <h6 class="font-weight-bolder mb-0">Add</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-10" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -253,70 +259,28 @@ if(isset($_GET['no_resi'])){
     <main class="main-content mt-0">
       <div class="page-header align-items-start min-vh-100">
         <div class="container my-auto">
-          <?php $row = mysqli_fetch_assoc($edit) ?>
           <div class="row">
             <div class="col-lg-6 col-md-8 col-12 mx-auto">
               <div class="card z-index-0 fadeIn3 fadeInBottom">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                   <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                    <h4 class="text-white font-weight-bolder text-center mt-0 mb-0">Edit Delivery</h4>
+                    <h4 class="text-white font-weight-bolder text-center mt-0 mb-0">Penawaran  <?= $barang["NAMA_BARANG"];?></h4>
                 </div>
             </div>
             <div class="card-body">
-                <form method="POST" role="form" class="text-start" enctype="multipart/form-data">
+                <form method="POST" action="../process/addstock.php" role="form" class="text-start" enctype="multipart/form-data">
+                    <input type="hidden" name="id_barang" id="" value="<?= $idBarang;?>">
                     <div class="row my-3">
-                    <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Receipt Number" class="form-control" name="no_resi" value="<?php echo $row['no_resi']; ?>" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Employee ID" class="form-control" name="id_pegawai" value="<?php echo $row['id_pegawai']; ?>" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Payment ID" class="form-control" name="id_pembayaran" value="<?php echo $row['id_pembayaran']; ?>" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Delivery Status" class="form-control" name="status_pengiriman" value="<?php echo $row['status_pengiriman']; ?>" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group input-group-outline mb-3">
-                                <input type="text" placeholder="Delivery Date" class="form-control" name="tgl_pengiriman" value="<?php echo $row['tgl_pengiriman']; ?>" required>
-                            </div>
+                        <div class="col-md-12">
+                          <div class="input-group input-group-outline mb-1">
+                            <input type="number" placeholder="Jumlah Stok" class="form-control text-center" name="stok" required>
+                          </div>
                         </div>
                     </div>
                     <div class="text-center">
-                      <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" name="edit-delivery">Edit</button>
+                      <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" name="add-offer">Tambahakan</button>
                     </div>
                   </form>
-                  <?php
-                  if(isset($_POST['edit-delivery'])){
-                    $no_resi  	  	    = $_POST['no_resi'];
-                    $id_pegawai         = $_POST['id_pegawai'];
-                    $id_pembayaran      = $_POST['id_pembayaran'];
-                    $status_pengiriman  = $_POST['status_pengiriman'];    	              
-                    $tgl_pengiriman     = $_POST['tgl_pengiriman'];
-
-                    $query          = "UPDATE pengiriman
-                                      SET no_resi='$no_resi',
-                                      id_pegawai='$id_pegawai',
-                                      id_pembayaran='$id_pembayaran',
-                                      status_pengiriman='$status_pengiriman',
-                                      tgl_pengiriman='$tgl_pengiriman'
-                                      WHERE no_resi='". $_GET['no_resi'] ."'";
-                    $update         = mysqli_query($db, $query);
-
-                    if($update){
-                      echo "<script>location='../pages/delivery.php';</script>";
-                    }
-                  }
-                ?>
                 </div>
               </div>
             </div>
@@ -364,7 +328,7 @@ if(isset($_GET['no_resi'])){
     <div class="card shadow-lg">
       <div class="card-header pb-0 pt-3">
         <div class="float-start">
-          <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+          <h5 class="mt-3 mb-0">Seafood True</h5>
           <p>See our dashboard options.</p>
         </div>
         <div class="float-end mt-4">
@@ -444,10 +408,7 @@ if(isset($_GET['no_resi'])){
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
-  <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
 </body>
-
 </html>
