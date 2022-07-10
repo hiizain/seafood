@@ -125,6 +125,8 @@
 
   <main id="main">
     <?php
+    $tglPenawaranTerakhir = query("SELECT TGL_PENAWARAN_TERAKHIR FROM CALON_KONSUMEN 
+    WHERE EMAIL_CALON_KONSUMEN = '$emailKonsumen'");
     if($tglPenawaranTerakhir[0]["TGL_PENAWARAN_TERAKHIR"] != null){
     ?>
     <!-- ======= Services Section ======= -->
